@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/Volodymyr1973/goit-react-hw-04-images.git/static/css/main.7acaea2f.css",
-    "main.js": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.07d3183d.js",
+    "main.css": "/Volodymyr1973/goit-react-hw-04-images.git/static/css/main.6421c24a.css",
+    "main.js": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.ad5ce1d4.js",
     "index.html": "/Volodymyr1973/goit-react-hw-04-images.git/index.html",
-    "main.7acaea2f.css.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/css/main.7acaea2f.css.map",
-    "main.07d3183d.js.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.07d3183d.js.map"
+    "static/media/search-svgrepo-com.svg": "/Volodymyr1973/goit-react-hw-04-images.git/static/media/search-svgrepo-com.88e54fa34d4bbfaf618d.svg",
+    "main.6421c24a.css.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/css/main.6421c24a.css.map",
+    "main.ad5ce1d4.js.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.ad5ce1d4.js.map"
   },
   "entrypoints": [
-    "static/css/main.7acaea2f.css",
-    "static/js/main.07d3183d.js"
+    "static/css/main.6421c24a.css",
+    "static/js/main.ad5ce1d4.js"
   ]
 }
