@@ -23,6 +23,27 @@ export const App = () => {
   useEffect(() => {
     if (name !== '') {
       setIsLoader(true);
+      const handleFetch = (name, page) => {
+        setTimeout(() => {
+          fetch(
+            `https://pixabay.com/api/?q=${name}&page=${page}&key=30855873-a6914290544a804f7a5292a28&image_type=photo&orientation=horizontal&per_page=12`
+          )
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              }
+              return Promise.reject(new Error('Insert other name'));
+            })
+            .then(gallery => handleGallery(gallery))
+            .catch(error => console.log(error))
+            .finally(setIsLoader(false));
+        }, 500);
+      };
+
+      const handleGallery = newGallery => {
+        setGallery([...gallery, ...newGallery.hits]);
+        setIsLoadMore(true);
+      };
       handleFetch(name, page);
     }
   }, [name, page]);
@@ -38,27 +59,27 @@ export const App = () => {
   // щоб можна було побачити Loader. Знаю, що
   // взагалі його не використовують
 
-  const handleFetch = (name, page) => {
-    setTimeout(() => {
-      fetch(
-        `https://pixabay.com/api/?q=${name}&page=${page}&key=30855873-a6914290544a804f7a5292a28&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(new Error('Insert other name'));
-        })
-        .then(gallery => handleGallery(gallery))
-        .catch(error => console.log(error))
-        .finally(setIsLoader(false));
-    }, 500);
-  };
+  // const handleFetch = (name, page) => {
+  //   setTimeout(() => {
+  //     fetch(
+  //       `https://pixabay.com/api/?q=${name}&page=${page}&key=30855873-a6914290544a804f7a5292a28&image_type=photo&orientation=horizontal&per_page=12`
+  //     )
+  //       .then(response => {
+  //         if (response.ok) {
+  //           return response.json();
+  //         }
+  //         return Promise.reject(new Error('Insert other name'));
+  //       })
+  //       .then(gallery => handleGallery(gallery))
+  //       .catch(error => console.log(error))
+  //       .finally(setIsLoader(false));
+  //   }, 500);
+  // };
 
-  const handleGallery = newGallery => {
-    setGallery([...gallery, ...newGallery.hits]);
-    setIsLoadMore(true);
-  };
+  // const handleGallery = newGallery => {
+  //   setGallery([...gallery, ...newGallery.hits]);
+  //   setIsLoadMore(true);
+  // };
 
   // залишив на відкриття та закриття Modal дві різні функції
 
