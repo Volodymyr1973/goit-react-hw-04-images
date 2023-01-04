@@ -18,7 +18,7 @@ export const App = () => {
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [url, setUrl] = useState('');
   const [tag, setTag] = useState('');
-  const [error, setError] = useState('');
+  // const [errorFetch, setErrorFetch] = useState('');
 
   useEffect(() => {
     if (name !== '') {
@@ -50,7 +50,7 @@ export const App = () => {
           return Promise.reject(new Error('Insert other name'));
         })
         .then(gallery => handleGallery(gallery))
-        .catch(error => setError(error))
+        .catch(error => console.log(error))
         .finally(setIsLoader(false));
     }, 500);
   };
