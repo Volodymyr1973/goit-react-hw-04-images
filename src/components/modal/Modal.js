@@ -10,7 +10,7 @@ export const Modal = ({ onClick, tag, url }) => {
     return () => {
       window.removeEventListener('keydown', onClick);
     };
-  }, []);
+  });
 
   return (
     <div className={css.overlay} onClick={onClick}>
