@@ -1,37 +1,44 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchBar } from './searchbar/SearchBar';
 import { ImageGallery } from './imagegallery/ImageGallery';
 // import { ImageGalleryItem } from './imagegalleryitem/ImageGalleryItem';
 import { Button } from './button/Button';
 import { Loader } from './loader/Loader';
+import { Modal } from './modal/Modal';
 import css from './App.module.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export class App extends Component {
-  state = {
-    name: '',
-    gallery: [],
-    page: 1,
-    isModalOpen: false,
-    isLoader: false,
-    isLoadMore: false,
-    url: '',
-    tag: '',
-    eroor: '',
+export const App = () => {
+  const [name, setName] = useState('');
+  const [gallery, setGallery] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
+  const [isLoadMore, setIsLoadMore] = useState(false);
+  const [url, setUrl] = useState('');
+  const [tag, setTag] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (name !== '') {
+      setIsLoader(true);
+      handleFetch(name, page);
+    }
+  }, [name, page]);
+
+  const handleImageName = nameSearch => {
+    const newName = nameSearch.toLowerCase();
+    setName(newName);
+    setPage(1);
+    setGallery([]);
   };
 
-  handleImageName = nameSearch => {
-    this.setState({ name: nameSearch.toLowerCase(), page: 1, gallery: [] });
-  };
+  // setTimeout встановив, виключно для того,
+  // щоб можна було побачити Loader. Знаю, що
+  // взагалі його не використовують
 
-  handleGallery = gallery => {
-    this.setState(prevState => ({
-      gallery: [...prevState.gallery, ...gallery.hits],
-    }));
-  };
-
-  handleFetch = (name, page) => {
+  const handleFetch = (name, page) => {
     setTimeout(() => {
       fetch(
         `https://pixabay.com/api/?q=${name}&page=${page}&key=30855873-a6914290544a804f7a5292a28&image_type=photo&orientation=horizontal&per_page=12`
@@ -42,82 +49,66 @@ export class App extends Component {
           }
           return Promise.reject(new Error('Insert other name'));
         })
-        .then(gallery => this.handleGallery(gallery))
-        .catch(error => this.setState({ error }))
-        .finally(this.handleLoadEnd());
-    }, 300);
+        .then(gallery => handleGallery(gallery))
+        .catch(error => setError(error))
+        .finally(setIsLoader(false));
+    }, 500);
   };
 
-  handleLoad = () => {
-    this.setState({ isLoader: true });
-    setTimeout(() => {
-      this.setState({ isLoadMore: true });
-    }, 1000);
+  const handleGallery = newGallery => {
+    setGallery([...gallery, ...newGallery.hits]);
+    setIsLoadMore(true);
   };
 
-  handleLoadEnd = () => {
-    this.setState({ isLoader: false });
+  // залишив на відкриття та закриття Modal дві різні функції
+
+  const handleModalOpen = event => {
+    setIsModalOpen(true);
+    setUrl(event.target.dataset.large);
+    setTag(event.target.dataset.tag);
   };
 
-  handleModalOpen = event => {
-    this.setState(() => ({
-      isModalOpen: true,
-      url: event.target.dataset.large,
-      tag: event.target.dataset.tag,
-    }));
-    document.addEventListener('keydown', this.handleModalClose);
-  };
-
-  handleModalClose = event => {
-    if (event.key === 'Escape' || event.type === 'click') {
-      this.setState({ isModalOpen: false });
-      document.removeEventListener('keydown', this.handleModalClose);
+  const handleModalClose = event => {
+    if (event.key === 'Escape' || event.target === event.currentTarget) {
+      setIsModalOpen(false);
     }
   };
 
-  handleLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
+  // кнопка LoadMore не рендериться, якщо в галерею приходить
+  // менше 12 зображень (умова в render()). Для перевірки
+  // у вікні пошуку ввести, наприклад, слово "glock"
+
+  const handleLoadMore = () => {
+    setPage(page => page + 1);
   };
 
-  render() {
-    return (
-      <div className={css.wrapper}>
-        <SearchBar onSubmit={this.handleImageName} />
+  return (
+    <div className={css.wrapper}>
+      <SearchBar onSubmit={handleImageName} />
 
-        <ImageGallery
-          name={this.state.name}
-          page={this.state.page}
-          gallery={this.state.gallery}
-          onFetch={this.handleFetch}
-          load={this.handleLoad}
-          isModalOpen={this.state.isModalOpen}
-          open={this.handleModalOpen}
-          close={this.handleModalClose}
-          url={this.state.url}
-          tag={this.state.tag}
-        ></ImageGallery>
-        {this.state.isLoader && <Loader isLoader={this.state.isLoader} />}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        {this.state.isLoadMore && (
-          <Button
-            loadMore={this.handleLoadMore}
-            isLoadMore={this.state.isLoadMore}
-          />
-        )}
-      </div>
-    );
-  }
-}
+      {gallery.length > 0 && (
+        <ImageGallery gallery={gallery} open={handleModalOpen}></ImageGallery>
+      )}
+      {isLoader && <Loader isLoader={isLoader} />}
+
+      {isModalOpen && <Modal url={url} tag={tag} onClick={handleModalClose} />}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+
+      {isLoadMore && gallery.length >= 12 && (
+        <Button loadMore={handleLoadMore} />
+      )}
+    </div>
+  );
+};
