@@ -21,11 +21,12 @@ export const App = () => {
   // const [errorFetch, setErrorFetch] = useState('');
 
   useEffect(() => {
-    if (name !== '') {
-      // setIsLoader(true);
-      handleFetch(name, page);
+    if (name === '') {
+      return;
     }
-  });
+    setIsLoader(true);
+    handleFetch(name, page);
+  }, [name, page]);
 
   const handleImageName = nameSearch => {
     const newName = nameSearch.toLowerCase();
@@ -81,13 +82,6 @@ export const App = () => {
   const handleLoadMore = () => {
     setPage(page => page + 1);
   };
-
-  // useEffect(() => {
-  //   if (name !== '') {
-  //     setIsLoader(true);
-  //     handleFetch(name, page);
-  //   }
-  // }, [name, page, handleFetch]);
 
   return (
     <div className={css.wrapper}>
