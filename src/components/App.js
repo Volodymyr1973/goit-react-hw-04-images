@@ -25,7 +25,8 @@ export const App = () => {
       return;
     }
     setIsLoader(true);
-    handleFetch(name, page);
+    handleFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, page]);
 
   const handleImageName = nameSearch => {
@@ -39,7 +40,7 @@ export const App = () => {
   // щоб можна було побачити Loader. Знаю, що
   // взагалі його не використовують
 
-  const handleFetch = (name, page) => {
+  const handleFetch = () => {
     setTimeout(() => {
       fetch(
         `https://pixabay.com/api/?q=${name}&page=${page}&key=30855873-a6914290544a804f7a5292a28&image_type=photo&orientation=horizontal&per_page=12`
