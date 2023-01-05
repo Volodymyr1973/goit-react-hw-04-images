@@ -22,10 +22,10 @@ export const App = () => {
 
   useEffect(() => {
     if (name !== '') {
-      setIsLoader(true);
+      // setIsLoader(true);
       handleFetch(name, page);
     }
-  }, [name, page]);
+  });
 
   const handleImageName = nameSearch => {
     const newName = nameSearch.toLowerCase();
