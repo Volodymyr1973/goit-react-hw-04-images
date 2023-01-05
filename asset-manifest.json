@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Volodymyr1973/goit-react-hw-04-images.git/static/css/main.0f6866f1.css",
-    "main.js": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.0c5b8d67.js",
+    "main.js": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.7926a485.js",
     "index.html": "/Volodymyr1973/goit-react-hw-04-images.git/index.html",
     "static/media/search-svgrepo-com.svg": "/Volodymyr1973/goit-react-hw-04-images.git/static/media/search-svgrepo-com.88e54fa34d4bbfaf618d.svg",
     "main.0f6866f1.css.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/css/main.0f6866f1.css.map",
-    "main.0c5b8d67.js.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.0c5b8d67.js.map"
+    "main.7926a485.js.map": "/Volodymyr1973/goit-react-hw-04-images.git/static/js/main.7926a485.js.map"
   },
   "entrypoints": [
     "static/css/main.0f6866f1.css",
-    "static/js/main.0c5b8d67.js"
+    "static/js/main.7926a485.js"
   ]
 }
