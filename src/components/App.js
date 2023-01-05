@@ -20,12 +20,12 @@ export const App = () => {
   const [tag, setTag] = useState('');
   // const [errorFetch, setErrorFetch] = useState('');
 
-  useEffect(() => {
-    if (name !== '') {
-      setIsLoader(true);
-      handleFetch(name, page);
-    }
-  }, [name, page]);
+  // useEffect(() => {
+  //   if (name !== '') {
+  //     setIsLoader(true);
+  //     handleFetch(name, page);
+  //   }
+  // }, [name, page, handleFetch]);
 
   const handleImageName = nameSearch => {
     const newName = nameSearch.toLowerCase();
@@ -81,6 +81,13 @@ export const App = () => {
   const handleLoadMore = () => {
     setPage(page => page + 1);
   };
+
+  useEffect(() => {
+    if (name !== '') {
+      setIsLoader(true);
+      handleFetch(name, page);
+    }
+  }, [name, page]);
 
   return (
     <div className={css.wrapper}>
